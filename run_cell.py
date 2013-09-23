@@ -5,7 +5,6 @@ from IPython.kernel import find_connection_file, KernelManager
 def connect_to_kernel(kernel_blob):
     cf = find_connection_file(kernel_blob)
     km = KernelManager(connection_file=cf)
-    # load connection info and init communication
     km.load_connection_file()
     c = km.client()
     return c
@@ -13,10 +12,10 @@ def connect_to_kernel(kernel_blob):
 def execute(client, code):
     # now we can run code.  This is done on the shell channel
     client.start_channels()
-    print
-    print "running:"
 
     # execution is immediate and async, returning a UUID
+    print
+    print "running:"
     msg_id = client.execute(code)
 
     # get_msg can block for a reply
