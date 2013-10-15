@@ -7,26 +7,50 @@
 		<string></string>
 	</array>
 	<key>foldingStartMarker</key>
-	<string>^(##)\s+</string>
+	<string>^(##)(\s+[\w \t]*\n|\n)</string>
 	<key>foldingStopMarker</key>
-	<string>(?=^(##)\s+)</string>
+	<string>^()(?=(##))</string>
 	<key>name</key>
 	<string>CodeCell</string>
 	<key>patterns</key>
 	<array>
 		<dict>
-			<key>captures</key>
+			<key>begin</key>
+			<string>^(##)(\s+[\w \t]*\n|\n)</string>
+			<key>beginCaptures</key>
 			<dict>
-				<key>0</key>
+				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>support.constant.tag.python.codecell</string>
+					<string>support.constant.tag.codecell.python</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>support.constant.header.codecell.python</string>
 				</dict>
 			</dict>
-			<key>match</key>
-			<string>^(##)(?=\s+|\Z).*</string>
+			<key>contentName</key>
+			<string>meta.content.codecell.python</string>
+			<key>end</key>
+			<string>^()(?=(##))</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>meta.terminate.codecell.python</string>
+				</dict>
+			</dict>
 			<key>name</key>
-			<string>support.constant.python.codecell</string>
+			<string>meta.codecell.python</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>source.python</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -34,7 +58,7 @@
 		</dict>
 	</array>
 	<key>scopeName</key>
-	<string>source.python.codecell</string>
+	<string>source.codecell.python</string>
 	<key>uuid</key>
 	<string>c71c37f6-2b16-4ed8-90f5-130715f3d565</string>
 </dict>

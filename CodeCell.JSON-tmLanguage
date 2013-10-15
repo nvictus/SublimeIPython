@@ -1,22 +1,36 @@
 // [PackageDev] target_format: plist, ext: tmLanguage
 { "name": "CodeCell",
-  "scopeName": "source.python.codecell",
+  "scopeName": "source.codecell.python",
   "fileTypes": [""],
   "uuid": "c71c37f6-2b16-4ed8-90f5-130715f3d565",
-  "foldingStartMarker": "^(##)\\s+",
-  "foldingStopMarker": "(?=^(##)\\s+)",
+  "foldingStartMarker": "^(##)(\\s+[\\w \\t]*\\n|\\n)",
+  "foldingStopMarker": "^()(?=(##))",
   "patterns": [
+
     {
-      "captures": {
-          "0": {
-              "name": "support.constant.tag.python.codecell"
-          }
-      }, 
-      "name": "support.constant.python.codecell", 
-      "match": "^(##)(?=\\s+|\\Z).*"
-    }, 
+      "name": "meta.codecell.python", 
+      "contentName": "meta.content.codecell.python",
+      "begin": "^(##)(\\s+[\\w \\t]*\\n|\\n)",
+      "beginCaptures": { //"0": {"name": "support.constant"},
+        "1": {"name": "support.constant.tag.codecell.python"},
+        "2": {"name": "support.constant.header.codecell.python"}
+      },
+      "patterns" : [
+        {
+          "include": "source.python"
+        }
+      ],
+      "end": "^()(?=(##))",
+      "endCaptures": {
+        "1": {"name": "meta.terminate.codecell.python"}
+      }
+    },
+
     {
       "include": "source.python"
     }
+
   ]
 }
+
+
