@@ -2,14 +2,18 @@
 import sys
 from IPython.kernel import find_connection_file, KernelManager
 
-def connect_to_kernel(kernel_blob):
-    cf = find_connection_file(kernel_blob)
+def connect_to_kernel(file_name):
+    cf = find_connection_file(file_name)
     km = KernelManager(connection_file=cf)
     km.load_connection_file()
-    c = km.client()
-    return c
+    return km.client()
 
-def execute(client, code):
+
+if __name__=='__main__':
+    code = sys.argv[1]
+    
+    client = connect_to_kernel('') #connects to last opened instance
+
     # now we can run code.  This is done on the shell channel
     client.start_channels()
 
@@ -28,9 +32,4 @@ def execute(client, code):
         print 'failed!'
         for line in reply['content']['traceback']:
             print line
-
-if __name__=='__main__':
-	code = sys.argv[1]
-	client = connect_to_kernel('') #connects to last opened instance
-	execute(client, code)
 

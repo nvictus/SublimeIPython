@@ -8,10 +8,11 @@
     {
       "name": "meta.cell.python.codecell", 
       "contentName": "meta.cell-content.python.codecell",
-      "begin": "^(##)((\\s+)(.*)$|\\n)",
+      "begin": "^((##)((\\s+)(.*)$|\\n))",
       "beginCaptures": { //"0": {"name": "."},
-        "1": {"name": "punctuation.definition.cell.begin.python.codecell"},
-        "4": {"name": "punctuation.definition.cell.header.python.codecell"}
+        "1": {"name": "support.constant.python.codecell"},
+        "2": {"name": "punctuation.definition.cell.begin.python.codecell"},
+        "5": {"name": "punctuation.definition.cell.header.python.codecell"}
       },
       "patterns" : [
         {

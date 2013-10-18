@@ -12,15 +12,20 @@
 	<array>
 		<dict>
 			<key>begin</key>
-			<string>^(##)((\s+)(.*)$|\n)</string>
+			<string>^((##)((\s+)(.*)$|\n))</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
+					<string>support.constant.python.codecell</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
 					<string>punctuation.definition.cell.begin.python.codecell</string>
 				</dict>
-				<key>4</key>
+				<key>5</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.cell.header.python.codecell</string>
