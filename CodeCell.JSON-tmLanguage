@@ -1,28 +1,26 @@
 // [PackageDev] target_format: plist, ext: tmLanguage
 { "name": "CodeCell",
-  "scopeName": "source.codecell.python",
+  "scopeName": "source.python.codecell",
   "fileTypes": [""],
   "uuid": "c71c37f6-2b16-4ed8-90f5-130715f3d565",
-  "foldingStartMarker": "^(##)(\\s+[\\w \\t]*\\n|\\n)",
-  "foldingStopMarker": "^()(?=(##))",
   "patterns": [
 
     {
-      "name": "meta.codecell.python", 
-      "contentName": "meta.content.codecell.python",
-      "begin": "^(##)(\\s+[\\w \\t]*\\n|\\n)",
-      "beginCaptures": { //"0": {"name": "support.constant"},
-        "1": {"name": "support.constant.tag.codecell.python"},
-        "2": {"name": "support.constant.header.codecell.python"}
+      "name": "meta.cell.python.codecell", 
+      "contentName": "meta.cell-content.python.codecell",
+      "begin": "^(##)((\\s+)(.*)$|\\n)",
+      "beginCaptures": { //"0": {"name": "."},
+        "1": {"name": "punctuation.definition.cell.begin.python.codecell"},
+        "4": {"name": "punctuation.definition.cell.header.python.codecell"}
       },
       "patterns" : [
         {
           "include": "source.python"
         }
       ],
-      "end": "^()(?=(##))",
+      "end": "(?=(^##)(\\s+.*$|\\n))",
       "endCaptures": {
-        "1": {"name": "meta.terminate.codecell.python"}
+        //"1": {"name": "punctuation.definition.cell.end.python.codecell"}
       }
     },
 
