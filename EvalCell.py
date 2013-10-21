@@ -30,7 +30,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             code = view.substr(cell).strip('\n')
 
             print             
-            print "sending %s" % code.split('\n')[0]
+            print "sending %s" % code.split('\n', 1)[0]
 
             # Shell out to system python to connect to ipython kernel
             p = subprocess.Popen(
