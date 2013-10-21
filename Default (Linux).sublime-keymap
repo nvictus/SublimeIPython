@@ -1,0 +1,9 @@
+[
+
+{ "keys": ["super+enter"], "command": "eval_cell", "context": [{
+      "key": "selector",
+      "operator": "equal",
+      "operand": "source.python"}]
+}
+
+]

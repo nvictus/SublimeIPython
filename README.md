@@ -7,20 +7,10 @@ This will let you work both in the editor and play with your favorite REPL inter
 ## Setup
 Clone this repo into Sublime's Packages directory.
 
-Go to *Preferences* -> *Key Bindings - User* and add the following entry:
-
-```json
-{ "keys": ["super+enter"], "command": "eval_cell", "context": [{
-      "key": "selector",
-      "operator": "equal",
-      "operand": "source.python"}]
-}
-```
-
 ## Usage
 Make sure you are running an instance of one of ipython console, qtconsole or notebook.
 
-Now, when you set your document's syntax to **CodeCells**, you can press **cmd-enter** to evaluate code between two `##` tags! The cursor will jump to the next cell.
+Now, when you set your document's syntax to **CodeCell**, you can press **cmd-enter** or **ctrl-enter** to evaluate code between two `##` tags! The cursor will jump to the next cell.
 
 ##Example
 
