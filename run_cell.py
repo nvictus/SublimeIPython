@@ -18,8 +18,6 @@ if __name__=='__main__':
     client.start_channels()
 
     # execution is immediate and async, returning a UUID
-    print
-    print "running:"
     msg_id = client.execute(code)
 
     # get_msg can block for a reply
@@ -27,7 +25,8 @@ if __name__=='__main__':
 
     status = reply['content']['status']
     if status == 'ok':
-        print 'succeeded!'
+        prompt = reply['content']['execution_count']
+        print 'Out [%s]: succeeded!' % prompt
     elif status == 'error':
         print 'failed!'
         for line in reply['content']['traceback']:

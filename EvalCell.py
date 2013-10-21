@@ -11,9 +11,13 @@ def extract_cell(view, cursor):
             next = end
             break
     if not region:
-        raise ValueError(
-            "Position (%d,%d) could not be matched to a cell." 
-            % view.rowcol(cursor))
+        if cursor == end:
+            region = sublime.Region(begin, end)
+            next = end
+        else:
+            raise ValueError(
+                "Position (%d,%d) could not be matched to a cell." 
+                % view.rowcol(cursor))
     return region, next
 
 class EvalCellCommand(sublime_plugin.TextCommand):
@@ -24,7 +28,9 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             pos = selection.begin()
             cell, next_pos = extract_cell(view, pos)
             code = view.substr(cell).strip('\n')
-            print code
+
+            print             
+            print "sending %s" % code.split('\n')[0]
 
             # Shell out to system python to connect to ipython kernel
             p = subprocess.Popen(
@@ -35,7 +41,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
 
             # Response
             for line in p.stdout:
-                print line.rstrip()
+                print str(line.rstrip())
                 p.stdout.flush()
         selections.clear()
         selections.add(sublime.Region(next_pos,next_pos))
