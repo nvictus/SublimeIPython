@@ -7,7 +7,7 @@ It's about time your favorite editor got in touch with your favorite interactive
 ## Install
 Clone this repo into Sublime's Packages directory.
 
-If you don't know where that folder is, open Sublime and go to _Preferences_ > _Browse Packages_ and see where that takes you.
+If you don't know where that folder is, open Sublime and go to _Preferences_ > _Browse Packages_ and see where you end up.
 
 ## Usage
 Make sure you are running an instance of one of ipython console, qtconsole or notebook. The plugin will connect to the most recently launched kernel on your system.
