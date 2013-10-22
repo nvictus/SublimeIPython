@@ -1,9 +1,17 @@
 [
-
-{ "keys": ["super+enter"], "command": "eval_cell", "context": [{
-      "key": "selector",
+  { "keys": ["super+enter"], 
+    "command": "eval_cell", 
+    "context": [ { "key": "selector",
       "operator": "equal",
-      "operand": "source.python"}]
-}
+      "operand": "source.python"
+    } ]
+  },
 
+  { "keys": ["super+."],
+    "command": "fold_cell",
+    "context": [ { "key": "selector",
+      "operator": "equal",
+      "operand": "source.python"
+    } ]
+  }
 ]
