@@ -12,23 +12,27 @@ def connect_to_kernel(file_name):
 if __name__=='__main__':
     code = sys.argv[1]
     
-    client = connect_to_kernel('') #connects to last opened instance
+    # Connect to last opened instance
+    client = connect_to_kernel('') 
 
-    # now we can run code.  This is done on the shell channel
+    # Code is run on the shell channel
+    # Execution is immediate and async
     client.start_channels()
+    uuid = client.execute(code)
 
-    # execution is immediate and async, returning a UUID
-    msg_id = client.execute(code)
-
-    # get_msg can block for a reply
+    # Block for a reply
     reply = client.get_shell_msg()
-
     status = reply['content']['status']
+    
     if status == 'ok':
         prompt = reply['content']['execution_count']
         print 'Out [%s]: succeeded!' % prompt
     elif status == 'error':
+        import re
+        regex = re.compile('\x1b\[[0-9;m]*', re.UNICODE)
+        
         print 'failed!'
+        # strip the ansi color codes from the ultraTB traceback
         for line in reply['content']['traceback']:
-            print line
+            print regex.sub('', line)
 

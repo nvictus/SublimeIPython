@@ -41,7 +41,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
 
             # Response
             for line in p.stdout:
-                print str(line.rstrip())
+                print line.rstrip()
                 p.stdout.flush()
         selections.clear()
         selections.add(sublime.Region(next_pos,next_pos))
