@@ -34,7 +34,7 @@ The `##` tags make it easy to embed cells into vanilla Python scripts. However, 
 
 - extend this to run ipython cells and cell magics `%%` and add ipython-specific syntax highlighting
 
-- broadcast errors to the stdout of the running front-end (right now they are printed in sublime's console and the ultraTB tracebacks are all mangly)
+- broadcast errors to the stdout of the running front-end (right now they are printed in sublime's console)
 
 - support interactive input from the running front-end
 
