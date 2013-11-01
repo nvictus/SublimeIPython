@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 import sys
-from IPython.kernel import find_connection_file, KernelManager
 
 def connect_to_kernel(file_name):
+    from IPython.kernel import find_connection_file, KernelManager
     cf = find_connection_file(file_name)
     km = KernelManager(connection_file=cf)
     km.load_connection_file()
@@ -13,6 +13,7 @@ if __name__=='__main__':
     code = sys.argv[1]
     
     # Connect to last opened instance
+    print "connecting..."
     client = connect_to_kernel('') 
 
     # Code is run on the shell channel
@@ -29,7 +30,7 @@ if __name__=='__main__':
         print 'Out [%s]: succeeded!' % prompt
     elif status == 'error':
         import re
-        regex = re.compile('\x1b\[[0-9;m]*', re.UNICODE)
+        regex = re.compile('\x1b\[[0-9;]*m', re.UNICODE)
         
         print 'failed!'
         # strip the ansi color codes from the ultraTB traceback
