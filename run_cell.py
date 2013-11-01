@@ -17,23 +17,20 @@ if __name__=='__main__':
     client = connect_to_kernel('') 
 
     # Code is run on the shell channel
-    # Execution is immediate and async
     client.start_channels()
+
+    # Execution is async
     uuid = client.execute(code)
 
     # Block for a reply
     reply = client.get_shell_msg()
-    status = reply['content']['status']
-    
-    if status == 'ok':
-        prompt = reply['content']['execution_count']
-        print 'Out [%s]: succeeded!' % prompt
-    elif status == 'error':
-        import re
-        regex = re.compile('\x1b\[[0-9;]*m', re.UNICODE)
-        
-        print 'failed!'
-        # strip the ansi color codes from the ultraTB traceback
-        for line in reply['content']['traceback']:
-            print regex.sub('', line)
 
+    status = reply['content']['status']
+    prompt = reply['content']['execution_count']
+    if status == 'ok':
+        sys.stdout.write('Out [%s]: succeeded!' % prompt)
+
+    elif status == 'error':        
+        sys.stdout.write('Err [%s]: failed!' % prompt)
+        for line in reply['content']['traceback']:
+            sys.stderr.write(line)

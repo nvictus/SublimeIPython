@@ -1,6 +1,7 @@
 import sublime, sublime_plugin
 import os, subprocess
 from os.path import dirname, abspath
+import re
 
 def extract_cell(view, cursor):
     tags = view.find_by_selector("punctuation.definition.cell.begin")
@@ -40,11 +41,19 @@ class EvalCellCommand(sublime_plugin.TextCommand):
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE)
             
-            #print p.stderr.read()
             # Response
-            for line in p.stdout:
-                print line.rstrip()
-                p.stdout.flush()
+            if p.stdout:
+                for line in p.stdout:
+                    print line.rstrip()
+                    p.stdout.flush()
+
+            if p.stderr:
+                # strip the ansi color codes from the ultraTB traceback
+                regex = re.compile('\x1b\[[0-9;]*m', re.UNICODE)
+                for line in p.stderr: 
+                    print regex.sub('', line).rstrip()
+                    p.stderr.flush()
+
         selections.clear()
         selections.add(sublime.Region(next_pos,next_pos))
 
