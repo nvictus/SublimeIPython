@@ -1,5 +1,6 @@
 import sublime, sublime_plugin
-import subprocess
+import os, subprocess
+from os.path import dirname, abspath
 
 def extract_cell(view, cursor):
     tags = view.find_by_selector("punctuation.definition.cell.begin")
@@ -33,12 +34,13 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             print "sending %s" % code.split('\n', 1)[0]
 
             # Shell out to system python to connect to ipython kernel
+            cmd = os.path.join(dirname(abspath(__file__)), 'run_cell.py')
             p = subprocess.Popen(
-                    ['/usr/bin/env', 'python', 'run_cell.py', code], 
-                    stdin=subprocess.PIPE,
+                    ['/usr/bin/env', 'python', cmd, code],
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE)
-
+            
+            #print p.stderr.read()
             # Response
             for line in p.stdout:
                 print line.rstrip()
@@ -57,4 +59,8 @@ class FoldCellCommand(sublime_plugin.TextCommand):
             region_to_fold = sublime.Region(lines[1].a-1, lines[-1].b)
             view.fold(region_to_fold)
 
+class KillCellCommand(sublime_plugin.TextCommand):
+    def run(self, edit):
+        p = self.view.proc
+        p.terminate()
 
