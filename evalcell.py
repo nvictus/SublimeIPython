@@ -3,6 +3,8 @@ import os, subprocess
 from os.path import dirname, abspath
 import re
 
+runner = os.path.join(dirname(abspath(__file__)), 'lib', 'run_cell.py')
+
 def extract_cell(view, cursor):
     tags = view.find_by_selector("punctuation.definition.cell.begin")
     starts = [0] + [tag.a for tag in tags] + [view.size()]
@@ -26,6 +28,8 @@ class EvalCellCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         selections = view.sel()
+        cmd = ['/usr/bin/env', 'python', runner]
+
         for selection in selections:
             pos = selection.begin()
             cell, next_pos = extract_cell(view, pos)
@@ -34,10 +38,9 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             print             
             print "sending %s" % code.split('\n', 1)[0]
 
-            # Shell out to system python to connect to ipython kernel
-            cmd = os.path.join(dirname(abspath(__file__)), 'run_cell.py')
+            # Shell out to the system Python to connect to IPython kernel
             p = subprocess.Popen(
-                    ['/usr/bin/env', 'python', cmd, code],
+                    cmd + [code],
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE)
             
