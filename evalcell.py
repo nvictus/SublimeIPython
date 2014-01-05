@@ -28,7 +28,12 @@ class EvalCellCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         selections = view.sel()
-        cmd = ['/usr/bin/env', 'python', runner]
+        
+        venv_path = view.settings().get('virtual_env_path')
+        if venv_path:
+            cmd = [os.path.join(venv_path, 'bin', 'python'), runner]  
+        else:
+            cmd = ['/usr/bin/env', 'python', runner]
 
         for selection in selections:
             pos = selection.begin()
@@ -71,8 +76,19 @@ class FoldCellCommand(sublime_plugin.TextCommand):
             region_to_fold = sublime.Region(lines[1].a-1, lines[-1].b)
             view.fold(region_to_fold)
 
-class KillCellCommand(sublime_plugin.TextCommand):
+class SetVirtualenvCommand(sublime_plugin.TextCommand):
+    def set_venv_path(self, venv):
+        settings = self.view.settings()
+        settings.set('virtual_env_path',
+            os.path.join(os.path.expanduser('~'), '.virtualenvs', venv))   
+         
     def run(self, edit):
-        p = self.view.proc
-        p.terminate()
+        settings = self.view.settings()
+        self.view.window().show_input_panel(
+            'Name of virtualenv', '', self.set_venv_path, None, None)
+
+# class KillCellCommand(sublime_plugin.TextCommand):
+#    def run(self, edit):
+#        p = self.view.proc
+#        p.terminate()
 

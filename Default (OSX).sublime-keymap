@@ -13,5 +13,30 @@
       "operator": "equal",
       "operand": "source.python"
     } ]
+  },
+
+  { "keys": ["super+alt+v"],
+    "command": "set_virtualenv",
+    "context": [ { "key": "selector",
+      "operator": "equal",
+      "operand": "source.python"
+    } ]
   }
 ]
+
+//  { "keys": ["super+shift+enter"], 
+//    "command": "async_eval_cell", 
+//    "context": [ { "key": "selector",
+//      "operator": "equal",
+//      "operand": "source.python"
+//    } ]
+//  },
+
+//  { "keys": ["ctrl+c"], 
+//    "command": "async_eval_cell", 
+//    "context": [ { "key": "selector",
+//      "operator": "equal",
+//      "operand": "source.python"
+//    } ],
+//    "args": {"stop": "True"}
+//  },
