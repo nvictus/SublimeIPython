@@ -65,16 +65,22 @@ class EvalCellCommand(sublime_plugin.TextCommand):
         selections.clear()
         selections.add(sublime.Region(next_pos,next_pos))
 
-class FoldCellCommand(sublime_plugin.TextCommand):
+class ToggleFoldCellCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         selections = view.sel()
         for selection in selections:
-            pos = selection.begin()
-            cell, next_pos = extract_cell(view, pos)
-            lines = view.lines(cell)
-            region_to_fold = sublime.Region(lines[1].a-1, lines[-1].b)
-            view.fold(region_to_fold)
+            region = selection
+            if region.empty():
+                region = sublime.Region(selection.a-1, selection.a+1)
+            unfolded = view.unfold(region)
+
+            if len(unfolded) == 0:
+                pos = selection.begin()
+                cell, next_pos = extract_cell(view, pos)
+                lines = view.lines(cell)
+                region_to_fold = sublime.Region(lines[1].a-1, lines[-1].b)
+                view.fold(region_to_fold)
 
 class SetVirtualenvCommand(sublime_plugin.TextCommand):
     def set_venv_path(self, venv):

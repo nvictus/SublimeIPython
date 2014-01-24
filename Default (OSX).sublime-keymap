@@ -8,7 +8,7 @@
   },
 
   { "keys": ["super+."],
-    "command": "fold_cell",
+    "command": "toggle_fold_cell",
     "context": [ { "key": "selector",
       "operator": "equal",
       "operand": "source.python"

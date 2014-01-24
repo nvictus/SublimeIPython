@@ -1,9 +1,29 @@
 [
-
-{ "keys": ["super+enter"], "command": "eval_cell", "context": [{
+  { "keys": ["super+enter"], 
+    "command": "eval_cell", 
+    "context": [{
       "key": "selector",
       "operator": "equal",
-      "operand": "source.python"}]
-}
+      "operand": "source.python"
+    } ]
+  },
+
+  { "keys": ["super+."],
+    "command": "toggle_fold_cell",
+    "context": [ { 
+      "key": "selector",
+      "operator": "equal",
+      "operand": "source.python"
+    } ]
+  },
+
+  { "keys": ["super+alt+v"],
+    "command": "set_virtualenv",
+    "context": [ { 
+      "key": "selector",
+      "operator": "equal",
+      "operand": "source.python"
+    } ]
+  }
 
 ]
