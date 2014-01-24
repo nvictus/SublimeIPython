@@ -1,0 +1,33 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+{ "name": "IPython",
+  "scopeName": "source.python.ipython",
+  "fileTypes": ["ipy"],
+  "uuid": "c71c37f6-2b16-4ed8-90f5-130715f3d565",
+  "patterns": [
+
+    {
+      "name": "meta.cell.python.ipython", 
+      "contentName": "meta.cell-content.python.ipython",
+      "begin": "^((%%)((.*)$|\\n))",
+      "beginCaptures": { //"0": {"name": "."},
+        "1": {"name": "entity.name.tag.cell.python.ipython"},
+        "2": {"name": "punctuation.definition.cell.begin.python.ipython"},
+        "4": {"name": "punctuation.definition.cell.header.python.ipython"}
+      },
+      "patterns" : [
+        {
+          "include": "source.python"
+        }
+      ],
+      "end": "(?=(^%%)(.*$|\\n))",
+      "endCaptures": {
+        //"1": {"name": "punctuation.definition.cell.end.python.codecell"}
+      }
+    },
+
+    {
+      "include": "source.python"
+    }
+
+  ]
+}
