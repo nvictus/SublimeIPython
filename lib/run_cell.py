@@ -13,7 +13,7 @@ if __name__=='__main__':
     code = sys.argv[1]
     
     # Connect to last opened instance
-    print "connecting..."
+    #print "connecting..."
     client = connect_to_kernel('') 
 
     # Code is run on the shell channel
