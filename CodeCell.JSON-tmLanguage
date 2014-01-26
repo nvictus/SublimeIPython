@@ -6,13 +6,13 @@
   "patterns": [
 
     {
-      "name": "meta.cell.python.codecell", 
-      "contentName": "meta.cell-content.python.codecell",
+      "name": "meta.section.cell.python.codecell", 
+      "contentName": "meta.section.cell.content.python.codecell",
       "begin": "^((##)((\\s+)(.*)$|\\n))",
       "beginCaptures": { //"0": {"name": "."},
         "1": {"name": "support.constant.python.codecell"},
-        "2": {"name": "punctuation.definition.cell.begin.python.codecell"},
-        "5": {"name": "punctuation.definition.cell.header.python.codecell"}
+        "2": {"name": "punctuation.section.cell.begin.python.codecell"},
+        "5": {"name": "entity.name.section.cell.heading.python.codecell"}
       },
       "patterns" : [
         {

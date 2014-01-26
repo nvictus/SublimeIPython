@@ -6,7 +6,7 @@ import re
 runner = os.path.join(dirname(abspath(__file__)), 'lib', 'run_cell.py')
 
 def extract_cell(view, cursor):
-    tags = view.find_by_selector("punctuation.definition.cell.begin")
+    tags = view.find_by_selector("punctuation.section.cell.begin")
     starts = [0] + [tag.a for tag in tags] + [view.size()]
     region = None
     for begin, end in zip(starts[:-1], starts[1:]):
