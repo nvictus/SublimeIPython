@@ -11,8 +11,8 @@
       "begin": "^((##)((\\s+)(.*)$|\\n))",
       "beginCaptures": { //"0": {"name": "."},
         "1": {"name": "support.constant.python.codecell"},
-        "2": {"name": "punctuation.definition.cell.begin.python.codecell"},
-        "5": {"name": "punctuation.definition.cell.header.python.codecell"}
+        "2": {"name": "punctuation.section.cell.begin.python.codecell"},
+        "5": {"name": "punctuation.section.cell.header.python.codecell"}
       },
       "patterns" : [
         {
@@ -21,7 +21,7 @@
       ],
       "end": "(?=(^##)(\\s+.*$|\\n))",
       "endCaptures": {
-        //"1": {"name": "punctuation.definition.cell.end.python.codecell"}
+        //"1": {"name": "punctuation.section.cell.end.python.codecell"}
       }
     },
 
