@@ -1,0 +1,66 @@
+// [PackageDev] target_format: plist, ext: tmLanguage
+{ "name": "IPython",
+  "scopeName": "source.python.ipython",
+  "fileTypes": ["ipy"],
+  "uuid": "c71c37f6-2b16-4ed8-90f5-130715f3d565",
+  "patterns": [
+    {
+      "name": "meta.section.cell.ipython",
+      "comment": "code cell", 
+      "begin": "^((##)((\\s+)(.*)$|\\n))",
+      "beginCaptures": { 
+        "1": {"name": "support.type.section.cell.heading.ipython"}, //highlights the heading
+        "2": {"name": "punctuation.section.cell.begin.ipython"},
+        "5": {"name": "entity.name.section.cell.heading.ipython"}
+      },
+      "contentName": "meta.section.cell.content.ipython",
+      "end": "(?=(^##)(\\s+.*$|\\n))",
+      "endCaptures": {},
+      "patterns" : [
+        {
+          "include": "#ipython_magic"
+        },
+
+        {
+          "include": "#ipython_shell_command"
+        },
+
+        {
+          "include": "source.python"
+        }
+      ]
+    },
+
+    {
+      "include": "#ipython_magic"
+    },
+
+    {
+      "include": "#ipython_shell_command"
+    },
+
+    {
+      "include": "source.python"
+    }
+  ],
+
+  "repository": {
+    "ipython_magic": {
+      "name": "meta.function.magic.ipython",
+      "comment": "ipython magic function",
+      "match": "((\\%+)(\\w+))(\\s+(.*)\\n|\\b)",
+      "captures": {
+        "1": {"name": "keyword.other.function.magic.ipython"}
+      }
+    },
+
+    "ipython_shell_command": {
+      "name": "meta.function.shell-command.ipython",
+      "comment": "shell escape",
+      "match": "^((!)(.+))",
+      "captures": {
+        "1": {"name": "constant.character.shell-command.ipython"}
+      }
+    }
+  }
+}
