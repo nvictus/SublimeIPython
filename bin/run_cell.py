@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import os
 import sys
 import signal
 import re
@@ -17,10 +18,10 @@ client = km.client()
 client.start_channels()
 
 # Propagate SIGTERM from sublime as SIGINT to kernel
-def interrupt_handler(signum, frame): #client, pid, 
+def interrupt_handler(signum, frame): 
     os.kill(pid, signal.SIGINT)
     sys.exit(128+signum)
-signal.signal(signal.SIGTERM, interrupt_handler) #partial(interrupt_handler, client, pid))
+signal.signal(signal.SIGTERM, interrupt_handler)
 
 # Code is sent over the shell channel.
 # Execution runs asynchronously in the kernel process.
