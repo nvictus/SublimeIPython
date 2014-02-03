@@ -43,7 +43,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             print             
             print "sending %s" % code.split('\n', 1)[0]
 
-            # Shell out to the system Python to connect to IPython kernel
+            # Call the system Python to connect to IPython kernel
             p = subprocess.Popen(
                     cmd + [code],
                     stdout=subprocess.PIPE, 
@@ -73,8 +73,8 @@ class ToggleFoldCellCommand(sublime_plugin.TextCommand):
             region = selection
             if region.empty():
                 region = sublime.Region(selection.a-1, selection.a+1)
-            unfolded = view.unfold(region)
 
+            unfolded = view.unfold(region)
             if len(unfolded) == 0: #already unfolded
                 pos = selection.begin()
                 cell, next_pos = extract_cell(view, pos)
@@ -91,5 +91,5 @@ class SetVirtualenvCommand(sublime_plugin.TextCommand):
         settings = self.view.settings()
         text = settings.get('virtual_env_path') or os.path.expanduser('~/.virtualenvs/')
         self.view.window().show_input_panel(
-            'Name of virtualenv', text, self.set_venv_path, None, None)
+            'Path to virtualenv', text, self.set_venv_path, None, None)
 
