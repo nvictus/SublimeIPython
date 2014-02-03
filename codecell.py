@@ -3,7 +3,7 @@ import os, subprocess
 from os.path import dirname, abspath
 import re
 
-runner = os.path.join(dirname(abspath(__file__)), 'lib', 'run_cell.py')
+runner = os.path.join(dirname(abspath(__file__)), 'bin', 'run_cell.py')
 
 def extract_cell(view, cursor):
     tags = view.find_by_selector("punctuation.section.cell.begin")
@@ -92,9 +92,4 @@ class SetVirtualenvCommand(sublime_plugin.TextCommand):
         settings = self.view.settings()
         self.view.window().show_input_panel(
             'Name of virtualenv', '', self.set_venv_path, None, None)
-
-# class KillCellCommand(sublime_plugin.TextCommand):
-#    def run(self, edit):
-#        p = self.view.proc
-#        p.terminate()
 
