@@ -75,7 +75,7 @@ class ToggleFoldCellCommand(sublime_plugin.TextCommand):
                 region = sublime.Region(selection.a-1, selection.a+1)
             unfolded = view.unfold(region)
 
-            if len(unfolded) == 0:
+            if len(unfolded) == 0: #already unfolded
                 pos = selection.begin()
                 cell, next_pos = extract_cell(view, pos)
                 lines = view.lines(cell)
@@ -85,11 +85,11 @@ class ToggleFoldCellCommand(sublime_plugin.TextCommand):
 class SetVirtualenvCommand(sublime_plugin.TextCommand):
     def set_venv_path(self, venv):
         settings = self.view.settings()
-        settings.set('virtual_env_path',
-            os.path.join(os.path.expanduser('~'), '.virtualenvs', venv))   
+        settings.set('virtual_env_path', os.path.expanduser(venv))   
          
     def run(self, edit):
         settings = self.view.settings()
+        text = settings.get('virtual_env_path') or os.path.expanduser('~/.virtualenvs/')
         self.view.window().show_input_panel(
-            'Name of virtualenv', '', self.set_venv_path, None, None)
+            'Name of virtualenv', text, self.set_venv_path, None, None)
 
