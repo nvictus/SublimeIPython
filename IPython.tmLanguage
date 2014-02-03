@@ -32,7 +32,7 @@
 				</dict>
 			</dict>
 			<key>comment</key>
-			<string>code/markup cell</string>
+			<string>code cell</string>
 			<key>contentName</key>
 			<string>meta.section.cell.content.ipython</string>
 			<key>end</key>

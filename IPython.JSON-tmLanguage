@@ -6,10 +6,10 @@
   "patterns": [
     {
       "name": "meta.section.cell.ipython",
-      "comment": "code/markup cell", 
+      "comment": "code cell", 
       "begin": "^((##)((\\s+)(.*)$|\\n))",
       "beginCaptures": { 
-        "1": {"name": "support.type.section.cell.heading.ipython"}, //highlighting
+        "1": {"name": "support.type.section.cell.heading.ipython"}, //highlights the heading
         "2": {"name": "punctuation.section.cell.begin.ipython"},
         "5": {"name": "entity.name.section.cell.heading.ipython"}
       },
