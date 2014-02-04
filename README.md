@@ -5,6 +5,8 @@ Sublime Text 2 plugin to evaluate cells of code in a running IPython [kernel](ht
 It's about time your favorite editor got in touch with your favorite interpreter! :)
 
 ## Install
+Requires IPython 1.0+
+
 Clone this repo into Sublime's _Packages_ directory.
 
 If you don't know where that folder is, open Sublime Text, go to _Preferences_ > _Browse Packages_ and see where you end up.
@@ -27,12 +29,13 @@ x = 10
 y = 9000
 doBar(x,y)
 %load_ext rmagic
+X = np.array([1,2,3,4,5])
+Y = np.random.rand(5)
 
 ## cell magic
 %%R -i X,Y -o XYcoef
 XYlm = lm(Y~X)
 XYcoef = coef(XYlm)
-
 ```
 The `##` tags make it easy to embed cells into vanilla Python scripts. Individual cells can be folded and unfolded using **cmd+"."**.
 
@@ -49,6 +52,8 @@ It would also be nice to:
 - broadcast errors and output to the interactive front-end (right now errors are printed in sublime's console)
 
 - forward input/raw_input requests to the interactive front-end
+
+- toggle pdb breakpoints
 
 - add a convert-to-notebook feature
 
