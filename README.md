@@ -26,6 +26,13 @@ doFoo(x)
 x = 10
 y = 9000
 doBar(x,y)
+%load_ext rmagic
+
+## cell magic
+%%R -i X,Y -o XYcoef
+XYlm = lm(Y~X)
+XYcoef = coef(XYlm)
+
 ```
 The `##` tags make it easy to embed cells into vanilla Python scripts. Individual cells can be folded and unfolded using **cmd+"."**.
 
@@ -38,8 +45,6 @@ I have only briefly tested ST3, but it seems to work.
 Currently, Sublime Text blocks while a cell is evaluating. This should be asynchronous.
 
 It would also be nice to:
-
-- support cell magics
 
 - broadcast errors and output to the interactive front-end (right now errors are printed in sublime's console)
 

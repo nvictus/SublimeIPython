@@ -39,10 +39,9 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             pos = selection.begin()
             cell, next_pos = extract_cell(view, pos)
             code = view.substr(cell).strip('\n')
+            head, code = code.split('\n', 1)    
 
-            print             
-            print "sending %s" % code.split('\n', 1)[0]
-
+            print "sending %s" % head
             # Call the system Python to connect to IPython kernel
             p = subprocess.Popen(
                     cmd + [code],
