@@ -38,7 +38,7 @@ status = reply['content']['status']
 prompt = reply['content']['execution_count']
 
 if status == 'ok':
-    print 'Out [%s]: succeeded!\n' % prompt
+    sys.stdout.write('Out [%s]: succeeded!\n' % prompt)
 
 elif status == 'error':
     sys.stderr.write('Err [%s]: failed!\n' % prompt)

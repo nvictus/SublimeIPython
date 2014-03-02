@@ -1,6 +1,9 @@
-import sublime, sublime_plugin
-import os, subprocess
+from __future__ import print_function
 from os.path import dirname, abspath
+import sublime, sublime_plugin
+import subprocess
+import os.path
+import sys
 import re
 
 runner = os.path.join(dirname(abspath(__file__)), 'bin', 'run_cell.py')
@@ -41,7 +44,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             code = view.substr(cell).strip('\n')
             head, code = code.split('\n', 1)    
 
-            print "sending %s" % head
+            print("sending %s" % head)
             # Call the system Python to connect to IPython kernel
             p = subprocess.Popen(
                     cmd + [code],
@@ -51,14 +54,14 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             # Response
             if p.stdout:
                 for line in p.stdout:
-                    print line.rstrip()
+                    print(line.rstrip().decode('utf-8'))
                     p.stdout.flush()
 
             if p.stderr:
                 # strip the ansi color codes from the ultraTB traceback
                 regex = re.compile('\x1b\[[0-9;]*m', re.UNICODE)
                 for line in p.stderr: 
-                    print regex.sub('', line).rstrip()
+                    print(regex.sub('', line).rstrip().decode('utf-8'))
                     p.stderr.flush()
 
         selections.clear()
