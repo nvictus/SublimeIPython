@@ -1,5 +1,5 @@
 [
-  { "keys": ["super+enter"], 
+  { "keys": ["ctrl+enter"], 
     "command": "eval_cell", 
     "context": [{
       "key": "selector",
@@ -8,7 +8,7 @@
     } ]
   },
 
-  { "keys": ["super+."],
+  { "keys": ["ctrl+."],
     "command": "toggle_fold_cell",
     "context": [ { 
       "key": "selector",
@@ -17,7 +17,7 @@
     } ]
   },
 
-  { "keys": ["super+alt+v"],
+  { "keys": ["ctrl+alt+v"],
     "command": "set_virtualenv",
     "context": [ { 
       "key": "selector",
