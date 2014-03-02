@@ -54,15 +54,17 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             # Response
             if p.stdout:
                 for line in p.stdout:
-                    print(line.rstrip().decode('utf-8'))
+                    print(line.decode('utf-8').rstrip())
                     p.stdout.flush()
+                print()
 
             if p.stderr:
                 # strip the ansi color codes from the ultraTB traceback
                 regex = re.compile('\x1b\[[0-9;]*m', re.UNICODE)
                 for line in p.stderr: 
-                    print(regex.sub('', line).rstrip().decode('utf-8'))
+                    print(regex.sub('', line.decode('utf-8').rstrip()))
                     p.stderr.flush()
+                print()
 
         selections.clear()
         selections.add(sublime.Region(next_pos,next_pos))
