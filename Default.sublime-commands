@@ -1,0 +1,4 @@
+[
+    { "caption": "IPython: run cell", "command": "eval_cell" },
+    { "caption": "IPython: set virtualenv", "command": "set_virtualenv" }
+]
