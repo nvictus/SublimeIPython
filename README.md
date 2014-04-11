@@ -39,9 +39,11 @@ If you don't know where that folder is, open Sublime Text, go to _Preferences_ >
 ## Usage
 Make sure you are running an instance of one of ipython `console`, `qtconsole` or `notebook`. The plugin will connect to the most recently launched kernel on your system.
 
-Now, if you set your document's syntax highlighting to **IPython** or use the .ipy file extension, evaluate code between any two `##` tags by pressing **cmd+enter** on Mac or **ctrl+enter** on Linux. The cursor will jump to the next cell. Place muliple cursors in multiple cells to run them all in succession. Confirmation and error tracebacks will appear in Sublime's console (to pull that up, type **ctrl+"\`"**).
+Set your document's syntax highlighting to **IPython** or use the .ipy file extension. Now you can evaluate code between any two `##` tags by pressing **cmd+enter** on Mac or **ctrl+enter** on Linux. The cursor will jump to the next cell. Place muliple cursors in multiple cells to run them all in succession.
 
 Individual cells can be folded and unfolded using **cmd+"."**.
+
+Confirmation and error tracebacks will appear in Sublime's console (to pull that up, type **ctrl+"\`"**).
 
 If you are running IPython inside a virtual environment, you can provide the path of your active virtualenv to SublimeIPython using **cmd+opt+v** (**ctrl+alt+v**) so that the appropriate Python binary is called.
 
@@ -75,3 +77,5 @@ It would also be nice to:
 - [SublimeIPython](https://github.com/iambus/SublimeIPython)
 - [vim-ipython](https://github.com/ivanov/vim-ipython)
 - [SublimeREPL](https://github.com/wuub/SublimeREPL)
+https://github.com/gid79/ipython-sublime
+https://github.com/JulianEberius/sublime-ipython-integration
