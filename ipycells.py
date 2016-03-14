@@ -1,11 +1,15 @@
 from __future__ import print_function
-from os.path import dirname, abspath
-import sublime, sublime_plugin
+import sublime_plugin, sublime
+
 import subprocess
 import os.path
+import glob
 import sys
 import re
+from os.path import dirname, abspath
+from functools import partial
 
+SETTINGS_FILE = "IPython.sublime-settings"
 runner = os.path.join(dirname(abspath(__file__)), 'bin', 'run_cell.py')
 
 def extract_cell(view, cursor):
@@ -32,9 +36,9 @@ class EvalCellCommand(sublime_plugin.TextCommand):
         view = self.view
         selections = view.sel()
         
-        venv_path = view.settings().get('virtual_env_path')
+        venv_path = view.settings().get('virtualenv_path', None)
         if venv_path:
-            cmd = [os.path.join(venv_path, 'bin', 'python'), runner]  
+            cmd = [os.path.join(venv_path, 'python'), runner]  
         else:
             cmd = ['/usr/bin/env', 'python', runner]
 
@@ -86,14 +90,69 @@ class ToggleFoldCellCommand(sublime_plugin.TextCommand):
                 region_to_fold = sublime.Region(lines[1].a-1, lines[-1].b)
                 view.fold(region_to_fold)
 
+def scan_for_virtualenvs(venv_paths):
+    bin_dir = "Scripts" if os.name == "nt" else "bin"
+    found_dirs = set()
+    for venv_path in venv_paths:
+        p = os.path.expanduser(venv_path)
+        pattern = os.path.join(p, "*", bin_dir, "activate_this.py")
+        found_dirs.update(list(map(os.path.dirname, glob.glob(pattern))))
+    return sorted(found_dirs)
+
 class SetVirtualenvCommand(sublime_plugin.TextCommand):
-    def set_venv_path(self, venv):
-        settings = self.view.settings()
-        settings.set('virtual_env_path', os.path.expanduser(venv))   
-         
+    def _scan(self):
+        settings = sublime.load_settings(SETTINGS_FILE)
+        venv_paths = settings.get("python_virtualenv_paths", [])
+        return scan_for_virtualenvs(venv_paths)
+
+    def set_virtualenv(self, choices, index):
+        if index == -1:
+            return
+        (name, directory) = choices[index]
+        activate_file = os.path.join(directory, "activate_this.py")
+        python_executable = os.path.join(directory, "python")
+        path_separator = ":"
+        if os.name == "nt":
+            python_executable += ".exe"  # ;-)
+            path_separator = ";"
+
+        #cmd = [python_executable, runner]
+        self.view.settings().set('virtualenv_path', directory)
+
     def run(self, edit):
-        settings = self.view.settings()
-        text = settings.get('virtual_env_path') or os.path.expanduser('~/.virtualenvs/')
-        self.view.window().show_input_panel(
-            'Path to virtualenv', text, self.set_venv_path, None, None)
+        choices = self._scan()
+        nice_choices = [[path.split(os.path.sep)[-2], path] for path in choices]
+        self.view.window().show_quick_panel(
+            nice_choices, 
+            partial(self.set_virtualenv, nice_choices)
+        )
+
+
+# class SetVirtualenvCommand(sublime_plugin.TextCommand):
+#     def set_venv_path(self, venv):
+#         settings = self.view.settings()
+#         settings.set('virtual_env_path', os.path.expanduser(venv))   
+         
+#     def run(self, edit):
+#         settings = self.view.settings()
+#         text = settings.get('virtual_env_path') or os.path.expanduser('~/.virtualenvs/')
+#         self.view.window().show_input_panel(
+#             'Path to virtualenv', text, self.set_venv_path, None, None)
+
+# self.window.run_command("repl_open",
+#     {
+#         "encoding":"utf8",
+#         "type": "subprocess",
+#         "autocomplete_server": True,
+#         "extend_env": {
+#             "PATH": directory + path_separator + "{PATH}",
+#             "SUBLIMEREPL_ACTIVATE_THIS": activate_file,
+#             "PYTHONIOENCODING": "utf-8"
+#         },
+#         "cmd": [python_executable, "-u", "${packages}/SublimeREPL/config/Python/ipy_repl.py"],
+#         "cwd": "$file_path",
+#         "encoding": "utf8",
+#         "syntax": "Packages/Python/Python.tmLanguage",
+#         "external_id": "python"
+#      })
 

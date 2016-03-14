@@ -1,4 +1,8 @@
 {
-	"virtual_env_path": "",
+	"virtualenv_path": "",
+	"python_virtualenv_paths": [
+		"~/.virtualenvs",  // virtualenvwrapper
+		"~/.venv"          // venv.bash https://github.com/wuub/venv
+	],
 	"translate_tabs_to_spaces": true
 }

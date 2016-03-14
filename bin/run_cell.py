@@ -13,23 +13,28 @@ cf = find_connection_file(cf_name)
 # We want the pid of the kernel to send interrupts to.
 # One hacky approach is to ask the kernel to os.getpid(),
 # assuming it's responsive (see vim-ipython).
-pid = int(re.findall(r'kernel-(\d+)\.json', cf)[0])
+#pid = int(re.findall(r'kernel-(\d+)\.json', cf)[0])
+
 
 # Connect to kernel
 km = KernelManager(connection_file=cf)
 km.load_connection_file()
 client = km.client()
+
+
 client.start_channels()
 
+
 # Propagate SIGTERM from sublime as SIGINT to kernel
-def interrupt_handler(signum, frame):
-    os.kill(pid, signal.SIGINT)
-    sys.exit(130)
-signal.signal(signal.SIGTERM, interrupt_handler)
+# def interrupt_handler(signum, frame):
+#     os.kill(pid, signal.SIGINT)
+#     sys.exit(130)
+# signal.signal(signal.SIGTERM, interrupt_handler)
 
 # Code is sent over the shell channel.
 # Execution runs asynchronously in the kernel process.
 code = sys.argv[1]
+
 msg_id = client.execute(code)
 
 # Block for a response from the kernel
