@@ -1,0 +1,10 @@
+[
+  { "keys": ["ctrl+enter"],
+    "command": "ipython_notebook_render",
+    "context": [
+     {"key": "selector",
+      "operator": "equal",
+      "operand": "source.json"
+    } ]
+  }
+]

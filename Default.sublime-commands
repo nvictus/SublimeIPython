@@ -1,5 +1,6 @@
 [
     { "caption": "IPython: run cell", "command": "eval_cell" },
     { "caption": "IPython: set virtualenv", "command": "set_virtualenv" },
-    { "caption": "IPython: preview notebook in browser", "command": "ipython_notebook_preview"}
+    { "caption": "IPython: preview notebook in browser", "command": "ipython_notebook_preview" },
+    { "caption": "IPython: render notebook cells", "command": "ipython_notebook_render" }
 ]
