@@ -1,3 +1,4 @@
+from __future__ import division, print_function
 import sublime
 import sublime_plugin
 
@@ -25,12 +26,12 @@ class IpythonNotebookPreviewCommand(sublime_plugin.TextCommand):
         process = subprocess.Popen(cmd)
         out, err = process.communicate()
         if out is not None:
-            print out
+            print(out)
         if err is not None:
-            print err
+            print(err)
 
         html_path = '%s.html' % html_basename
-        print 'Notebook exported to html at %s' % html_path
+        print('Notebook exported to html at %s' % html_path)
 
         cmd = ['open', html_path]
         p = subprocess.Popen(cmd)
