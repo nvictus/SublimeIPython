@@ -40,7 +40,10 @@ class EvalCellCommand(sublime_plugin.TextCommand):
         if venv_path:
             cmd = [os.path.join(venv_path, 'python'), runner]  
         else:
-            cmd = ['/usr/bin/env', 'python', runner]
+            if os.name == 'nt':
+                cmd = ['python', runner]
+            else:
+                cmd = ['/usr/bin/env', 'python', runner]
 
         for selection in selections:
             pos = selection.begin()
@@ -49,6 +52,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             head, code = code.split('\n', 1)    
 
             print("sending %s" % head)
+            print(cmd + [code])
             # Call the system Python to connect to IPython kernel
             p = subprocess.Popen(
                     cmd + [code],
