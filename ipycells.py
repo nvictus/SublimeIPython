@@ -12,6 +12,7 @@ from functools import partial
 SETTINGS_FILE = "IPython.sublime-settings"
 runner = os.path.join(dirname(abspath(__file__)), 'bin', 'run_cell.py')
 
+
 def extract_cell(view, cursor):
     tags = view.find_by_selector("punctuation.section.cell.begin")
     starts = [0] + [tag.a for tag in tags] + [view.size()]
@@ -31,17 +32,18 @@ def extract_cell(view, cursor):
                 % view.rowcol(cursor))
     return region, next
 
+
 class EvalCellCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         selections = view.sel()
         
-        venv_path = view.settings().get('virtualenv_path', None)
-        if venv_path:
-            cmd = [os.path.join(venv_path, 'python'), runner]  
+        pyexe_path = view.settings().get('python_executable', None)
+        if pyexe_path:
+            cmd = [os.path.join(pyexe_path), runner]  
         else:
             if os.name == 'nt':
-                cmd = ['python', runner]
+                cmd = ['python.exe', runner]
             else:
                 cmd = ['/usr/bin/env', 'python', runner]
 
@@ -52,7 +54,6 @@ class EvalCellCommand(sublime_plugin.TextCommand):
             head, code = code.split('\n', 1)    
 
             print("sending %s" % head)
-            print(cmd + [code])
             # Call the system Python to connect to IPython kernel
             p = subprocess.Popen(
                     cmd + [code],
@@ -77,6 +78,7 @@ class EvalCellCommand(sublime_plugin.TextCommand):
         selections.clear()
         selections.add(sublime.Region(next_pos,next_pos))
 
+
 class ToggleFoldCellCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
@@ -87,49 +89,67 @@ class ToggleFoldCellCommand(sublime_plugin.TextCommand):
                 region = sublime.Region(selection.a-1, selection.a+1)
 
             unfolded = view.unfold(region)
-            if len(unfolded) == 0: #already unfolded
+            if len(unfolded) == 0:  # already unfolded
                 pos = selection.begin()
                 cell, next_pos = extract_cell(view, pos)
                 lines = view.lines(cell)
                 region_to_fold = sublime.Region(lines[1].a-1, lines[-1].b)
                 view.fold(region_to_fold)
 
-def scan_for_virtualenvs(venv_paths):
-    bin_dir = "Scripts" if os.name == "nt" else "bin"
-    found_dirs = set()
-    for venv_path in venv_paths:
-        p = os.path.expanduser(venv_path)
-        pattern = os.path.join(p, "*", bin_dir, "activate_this.py")
-        found_dirs.update(list(map(os.path.dirname, glob.glob(pattern))))
-    return sorted(found_dirs)
 
-class SetVirtualenvCommand(sublime_plugin.TextCommand):
-    def _scan(self):
-        settings = sublime.load_settings(SETTINGS_FILE)
-        venv_paths = settings.get("python_virtualenv_paths", [])
-        return scan_for_virtualenvs(venv_paths)
-
-    def set_virtualenv(self, choices, index):
-        if index == -1:
-            return
-        (name, directory) = choices[index]
-        activate_file = os.path.join(directory, "activate_this.py")
-        python_executable = os.path.join(directory, "python")
-        path_separator = ":"
-        if os.name == "nt":
-            python_executable += ".exe"  # ;-)
-            path_separator = ";"
-
-        #cmd = [python_executable, runner]
-        self.view.settings().set('virtualenv_path', directory)
-
+class SetJupyterPythonExecutable(sublime_plugin.TextCommand):
+    def set_pyexe(self, path):
+        settings = self.view.settings()
+        settings.set('python_executable', os.path.abspath(os.path.expanduser(path)))
+         
     def run(self, edit):
-        choices = self._scan()
-        nice_choices = [[path.split(os.path.sep)[-2], path] for path in choices]
-        self.view.window().show_quick_panel(
-            nice_choices, 
-            partial(self.set_virtualenv, nice_choices)
-        )
+        settings = self.view.settings()
+        text = settings.get('python_executable')
+        self.view.window().show_input_panel(
+            'Path to Jupyter Python executable', text, self.set_pyexe, None, None)
+
+
+
+
+
+# def scan_for_virtualenvs(venv_paths):
+#     bin_dir = "Scripts" if os.name == "nt" else "bin"
+#     found_dirs = set()
+#     for venv_path in venv_paths:
+#         p = os.path.expanduser(venv_path)
+#     if os.path.exists(venv_path):
+#         pattern = os.path.join(p, "*", bin_dir, "activate_this.py")
+#         found_dirs.update(list(map(os.path.dirname, glob.glob(pattern))))
+#     return sorted(found_dirs)
+
+# class SetVirtualenvCommand(sublime_plugin.TextCommand):
+#     def _scan(self):
+#         settings = sublime.load_settings(SETTINGS_FILE)
+#         venv_paths = settings.get("python_virtualenv_paths", [])
+#         return scan_for_virtualenvs(venv_paths)
+
+#     def set_virtualenv(self, choices, index):
+#         if index == -1:
+#             print("no virtualenvs found")
+#             return
+#         (name, directory) = choices[index]
+#         activate_file = os.path.join(directory, "activate_this.py")
+#         python_executable = os.path.join(directory, "python")
+#         path_separator = ":"
+#         if os.name == "nt":
+#             python_executable += ".exe"  # ;-)
+#             path_separator = ";"
+
+#         #cmd = [python_executable, runner]
+#         self.view.settings().set('virtualenv_path', directory)
+
+#     def run(self, edit):
+#         choices = self._scan()
+#         nice_choices = [[path.split(os.path.sep)[-2], path] for path in choices]
+#         self.view.window().show_quick_panel(
+#             nice_choices, 
+#             partial(self.set_virtualenv, nice_choices)
+#         )
 
 
 # class SetVirtualenvCommand(sublime_plugin.TextCommand):

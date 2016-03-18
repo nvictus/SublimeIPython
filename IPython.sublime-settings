@@ -1,8 +1,6 @@
 {
 	"virtualenv_path": "",
-	"python_virtualenv_paths": [
-		"~/.virtualenvs",  // virtualenvwrapper
-		"~/.venv"          // venv.bash https://github.com/wuub/venv
-	],
+	"python_executable": "",
 	"translate_tabs_to_spaces": true
 }
+
